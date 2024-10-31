@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exact Phone Look Mockup</title>
+    <style>
+        /* General body and phone container styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Phone container */
+        #phone {
+            width: 300px;  /* Adjusted for better size */
+            height: 600px; /* Adjusted for better size */
+            border: 6px solid #000;
+            border-radius: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+
+        /* Top notch */
+        #notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background-color: #000;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Camera and sensors inside notch */
+        .camera {
+            width: 10px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        
+        .sensor {
+            width: 30px;
+            height: 5px;
+            background-color: #333;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        /* Lock screen styling */
+        #lock-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 18px;
+            background-image: url('https://assets.onecompiler.app/42tmq6jud/42wrrazut/1000042018.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s;
+            padding-top: 40px; /* Adjust for the notch */
+            box-sizing: border-box;
+        }
+        
+        /* Pin input and buttons */
+        #pin-input {
+            margin-top: 10px;
+            font-size: 24px;
+            letter-spacing: 5px;
+        }
+        #pin-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pin-button {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.3);
+            font-size: 18px;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .pin-button:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        #lock-screen-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+            visibility: hidden;
+        }
+
+        /* Home screen styling */
+        #home-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #333;
+            opacity: 0;
+            visibility: hidden;
+            position: absolute; /* Ensures it overlays correctly */
+            top: 0; /* Ensures it overlays correctly */
+            left: 0; /* Ensures it overlays correctly */
+        }
+
+        /* Iframe styling */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Remove iframe border */
+        }
+
+        /* SOS button styling */
+        #sos-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 40px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #sos-button:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+<div id="phone">
+    <!-- Top bezel and notch -->
+    <div id="notch">
+        <div class="camera"></div>
+        <div class="sensor"></div>
+        <div class="camera"></div>
+    </div>
+    <!-- Lock Screen -->
+    <div id="lock-screen">
+        <div>Enter PIN</div>
+        <div id="pin-input">●●●●●●</div>
+        <div id="pin-buttons">
+            <button class="pin-button" onclick="enterDigit('1')">1</button>
+            <button class="pin-button" onclick="enterDigit('2')">2</button>
+            <button class="pin-button" onclick="enterDigit('3')">3</button>
+            <button class="pin-button" onclick="enterDigit('4')">4</button>
+            <button class="pin-button" onclick="enterDigit('5')">5</button>
+            <button class="pin-button" onclick="enterDigit('6')">6</button>
+            <button class="pin-button" onclick="enterDigit('7')">7</button>
+            <button class="pin-button" onclick="enterDigit('8')">8</button>
+            <button class="pin-button" onclick="enterDigit('0')">0</button>
+            <button class="pin-button" onclick="enterDigit('9')">9</button>
+            <button class="pin-button" id="backspace-btn" onclick="backspacePin()" style="display: none;">⌫</button>
+        </div>
+        <div id="lock-screen-message">Incorrect PIN</div>
+        <button id="sos-button" onclick="alert('SOS Activated!')">SOS</button>
+    </div>
+
+    <!-- Home Screen -->
+    <div id="home-screen">
+        <iframe src="https://instaii.netlify.app/"></iframe>
+    </div>
+</div>
+
+<script>
+    let enteredPin = "";
+    const correctPin = "777777";
+
+    function enterDigit(digit) {
+        if (enteredPin.length < 6) {
+            enteredPin += digit;
+            updatePinDisplay();
+            showBackspaceButton();
+            if (enteredPin === correctPin) {
+                unlockPhone();
+            }
+        }
+    }
+
+    function backspacePin() {
+        if (enteredPin.length > 0) {
+            enteredPin = enteredPin.slice(0, -1);
+            updatePinDisplay();
+            if (enteredPin.length === 0) {
+                document.getElementById("backspace-btn").style.display = "none";
+            }
+        }
+    }
+
+    function updatePinDisplay() {
+        let displayedPin = "";
+        for (let i = 0; i < 6; i++) {
+            if (i < enteredPin.length) {
+                displayedPin += "<span style='color: white;'>●</span>";
+            } else {
+                displayedPin += "<span style='color: rgba(255, 255, 255, 0.5);'>●</span>";
+            }
+        }
+        document.getElementById("pin-input").innerHTML = displayedPin;
+    }
+
+    function showBackspaceButton() {
+        document.getElementById("backspace-btn").style.display = "block";
+    }
+
+    function unlockPhone() {
+        document.getElementById("lock-screen").style.opacity = "0";
+        document.getElementById("lock-screen").style.visibility = "hidden";
+        document.getElementById("home-screen").style.opacity = "1";
+        document.getElementById("home-screen").style.visibility = "visible";
+    }
+</script>
+
+</body>
+</html>
